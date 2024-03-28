@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    3D Сцена
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Это ваша 3D сцена</h1>
+    <div id="scene-container"></div>
+</div>
+
+<script>
+    // Создаем сцену
+    const scene = new THREE.Scene();
+
+    // Создаем камеру
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 5);
+
+    // Создаем рендерер
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('scene-container').appendChild(renderer.domElement);
+
+    // Создаем геометрию (например, куб)
+    const geometry = new THREE.BoxGeometry();
+    
+    // Создаем материал (например, красный цвет)
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    
+    // Создаем меш (объект), используя геометрию и материал
+    const cube = new THREE.Mesh(geometry, material);
+    
+    // Добавляем меш в сцену
+    scene.add(cube);
+
+    // Анимация
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Вращение куба
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        // Рендеринг сцены
+        renderer.render(scene, camera);
+    }
+
+    // Запуск анимации
+    animate();
+</script>
+{% endblock %}
